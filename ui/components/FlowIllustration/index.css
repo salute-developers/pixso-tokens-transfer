@@ -1,0 +1,42 @@
+.flow-illustration {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 4.375rem 0;
+    position: relative;
+
+    &:before {
+        content: '';
+        position: absolute;
+        inset: 4px -32px 0;
+        opacity: 0.4;
+        background-color: #2C2C2C;
+        background-size: 1.25rem 1.25rem;
+        background-image: linear-gradient(var(--text-tertiary) .1rem, transparent .1rem), linear-gradient(90deg, var(--text-tertiary) .1rem, transparent .1rem);
+        -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        z-index: -1;
+    }
+}
+
+.flow-illustration__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.flow-illustration__logo {
+    width: 4.375rem;
+    height: 4.375rem;
+    object-fit: contain;
+}
+
+.flow-illustration__label {
+    color: var(--text-primary);
+}
+
+.flow-illustration__arrow {
+    color: var(--text-primary);
+    margin-top: 1.625rem;
+}

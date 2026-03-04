@@ -1,0 +1,17 @@
+.confirm-screen {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.confirm-screen__label {
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.confirm-screen__description {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 0 1rem;
+    margin: 1.125rem 0 2.5rem 0;
+}

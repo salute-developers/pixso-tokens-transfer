@@ -1,0 +1,43 @@
+@import '@salutejs/sdds-themes/css/sdds_serv__dark.css';
+
+:root {
+    background-color: #2C2C2C;
+}
+
+body {
+    margin: 0;
+    position: relative;
+}
+
+/* Layout */
+
+.plugin-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.tabs-header {
+    padding: 0 1rem;
+    flex-shrink: 0;
+}
+
+.tabs-header .tab-item-animated {
+    margin-left: 0.625rem;
+}
+
+.screen-content {
+    flex: 1;
+    padding: 0 1rem 1.25rem 1rem;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+/* Утилиты */
+
+.accent-info-in-text {
+    color: var(--text-primary);
+    font-weight: var(--plasma-typo-body-s-bold-font-weight);
+}

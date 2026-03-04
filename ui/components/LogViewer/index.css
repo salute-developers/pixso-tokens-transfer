@@ -1,0 +1,22 @@
+.log-viewer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.log-viewer__header-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.log-viewer__text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-family: monospace;
+    white-space: pre-wrap;
+    word-break: break-all;
+
+    margin: 0;
+    padding: 1rem 0.5rem;
+}

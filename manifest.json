@@ -1,0 +1,17 @@
+{
+  "name": "SDDS Tokens Transfer",
+  "id": "sdds_tokens_transfer",
+  "version": "1.0.0",
+  "type": "plugin",
+  "main": "dist/main.js",
+  "ui": "dist/ui.html",
+  "manifestVersion": 1,
+  "author": "Salute Frontend Team <salute.developers@gmail.com>",
+  "description": "Плагин Pixso для переноса токенов из DS-Builder в Pixso и наоборот",
+  "icon": "",
+  "host": {
+    "app": "Pixso",
+    "minVersion": "1.0.0"
+  },
+  "permissions": ["currentDocument", "library"]
+}

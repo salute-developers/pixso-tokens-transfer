@@ -1,0 +1,35 @@
+.ds-card {
+    position: relative;
+    margin: 0 auto;
+    background: #3D3D3D;
+    border-radius: 0.75rem;
+    width: 17.5rem;
+    height: 10.125rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.ds-card__thumb {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1rem;
+    width: 11rem;
+    height: 11rem;
+    object-fit: contain;
+}
+
+.ds-card__logo {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: contain;
+}
+
+.ds-card__name {
+    color: var(--text-primary);
+    margin: 0 0 1.125rem 1.25rem;
+}
