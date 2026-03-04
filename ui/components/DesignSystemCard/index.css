@@ -1,14 +1,40 @@
-.ds-card {
-    position: relative;
+/* Wrapper ловит события мыши, но не трансформируется — стабильный bbox при scale */
+.ds-card-wrapper {
     margin: 0 auto;
-    background: #3D3D3D;
-    border-radius: 0.75rem;
     width: 17.5rem;
     height: 10.125rem;
+}
+
+.ds-card {
+    position: relative;
+    background: #3D3D3D;
+    border-radius: 0.75rem;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    transform-style: preserve-3d;
+    transition: transform 400ms ease;
+    will-change: transform;
+    cursor: default;
+}
+
+.ds-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at var(--glow-x, 50%) var(--glow-y, 50%),
+        rgba(151, 144, 144, 0.18) 0%,
+        transparent 50%
+    );
+    opacity: var(--glow-opacity, 0);
+    transition: opacity 400ms ease;
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 1;
 }
 
 .ds-card__thumb {

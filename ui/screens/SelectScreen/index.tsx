@@ -6,18 +6,14 @@ import { DESIGN_SYSTEMS } from '../../data/designSystems';
 
 interface SelectScreenProps {
     flow: FlowType;
-    onBack: () => void;
     onSelect: (system: DesignSystem) => void;
 }
 
-export const SelectScreen: React.FC<SelectScreenProps> = ({ flow, onBack, onSelect }) => {
+export const SelectScreen: React.FC<SelectScreenProps> = ({ flow, onSelect }) => {
     const title = flow === 'import' ? 'Выберите дизайн-систему для импорта' : 'Выберите дизайн-систему для экспорта';
 
     return (
         <div className="select-screen">
-            <Button size="xs" view="clear" contentPlacing="relaxed" onClick={onBack}>
-                ← Назад
-            </Button>
             <BodyS className="select-screen__title">{title}</BodyS>
             <div className="select-screen__list">
                 {DESIGN_SYSTEMS.map((system) => (

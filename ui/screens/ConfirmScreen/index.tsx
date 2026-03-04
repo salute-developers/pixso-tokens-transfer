@@ -16,9 +16,6 @@ export const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ flow, system, onBa
 
     return (
         <div className="confirm-screen">
-            <Button size="s" view="clear" onClick={onBack}>
-                ← Назад
-            </Button>
             <BodyS className="confirm-screen__label">Выбранная дизайн система</BodyS>
             <DesignSystemCard system={system} flow={flow} />
             <BodyS className="confirm-screen__description">

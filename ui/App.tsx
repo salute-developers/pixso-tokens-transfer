@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { PopupProvider, Tabs, TabItem } from '@salutejs/sdds-serv';
+import { PopupProvider, Tabs, TabItem, Button } from '@salutejs/sdds-serv';
 import type { Screen, FlowType, ResultState, DesignSystem, RemoteStyleData } from 'types';
 import { CONSTANTS } from 'utils/constants';
 import { pixsoEventBus } from './helpers/pixso';
+import { useScreenTransition } from './hooks/useScreenTransition';
 import { HomeScreen } from './screens/HomeScreen';
 import { SelectScreen } from './screens/SelectScreen';
 import { ConfirmScreen } from './screens/ConfirmScreen';
@@ -14,7 +15,7 @@ const IMPORT_URL = (systemId: string) => `https://ds-builder.example.com/api/v1/
 const EXPORT_URL = (systemId: string) => `https://ds-builder.example.com/api/v1/themes/${systemId}/paint-styles`;
 
 const App = () => {
-    const [screen, setScreen] = useState<Screen>('home');
+    const { screen, prevScreen, direction, navigate, onExited } = useScreenTransition('home');
     const [flow, setFlow] = useState<FlowType>('import');
     const [selectedSystem, setSelectedSystem] = useState<DesignSystem | null>(null);
     const [resultState, setResultState] = useState<ResultState>('loading');
@@ -26,12 +27,35 @@ const App = () => {
 
     const handleTabChange = (newFlow: FlowType) => {
         setFlow(newFlow);
-        setScreen('home');
+        if (screen !== 'home') {
+            navigate('home', 'back');
+        }
+    };
+
+    const onBack = () => {
+        let prevForBack: Screen = 'home';
+
+        switch (screen) {
+            case 'select':
+                prevForBack = 'home';
+                break;
+            case 'confirm':
+                prevForBack = 'select';
+                break;
+            case 'result':
+                prevForBack = 'confirm';
+                break;
+            default:
+                prevForBack = 'home';
+                break;
+        }
+
+        navigate(prevForBack, 'back');
     };
 
     const handleSystemSelect = (system: DesignSystem) => {
         setSelectedSystem(system);
-        setScreen('confirm');
+        navigate('confirm', 'forward');
     };
 
     const handleConfirm = () => {
@@ -41,7 +65,7 @@ const App = () => {
 
         setResultState('loading');
         setLogs([`*** ${timeStamp} ***`]);
-        setScreen('result');
+        navigate('result', 'forward');
         if (flow === 'import') {
             startImport();
         } else {
@@ -102,45 +126,64 @@ const App = () => {
         parent.postMessage({ pluginMessage: { type: CONSTANTS.msgType.closePlugin } }, '*');
     };
 
+    const renderScreen = (s: Screen) => {
+        switch (s) {
+            case 'home':
+                return <HomeScreen flow={flow} onStart={() => navigate('select', 'forward')} />;
+            case 'select':
+                return <SelectScreen flow={flow} onSelect={handleSystemSelect} />;
+            case 'confirm':
+                return selectedSystem ? (
+                    <ConfirmScreen
+                        flow={flow}
+                        system={selectedSystem}
+                        onBack={() => navigate('select', 'back')}
+                        onConfirm={handleConfirm}
+                    />
+                ) : null;
+            case 'result':
+                return <ResultScreen flow={flow} resultState={resultState} logs={logs} onClose={handleClose} />;
+        }
+    };
+
     return (
         <PopupProvider>
             <div className="plugin-container">
                 <div className="tabs-header">
-                    <Tabs size="xs" view="clear">
-                        <TabItem
-                            size="xs"
-                            view="clear"
-                            isActive={flow === 'import'}
-                            onClick={() => handleTabChange('import')}
-                        >
-                            Импорт
-                        </TabItem>
-                        <TabItem
-                            size="xs"
-                            view="clear"
-                            isActive={flow === 'export'}
-                            onClick={() => handleTabChange('export')}
-                        >
-                            Экспорт
-                        </TabItem>
-                    </Tabs>
+                    {screen === 'home' ? (
+                        <Tabs size="xs" view="clear">
+                            <TabItem
+                                size="xs"
+                                view="clear"
+                                isActive={flow === 'import'}
+                                onClick={() => handleTabChange('import')}
+                            >
+                                Импорт
+                            </TabItem>
+                            <TabItem
+                                size="xs"
+                                view="clear"
+                                isActive={flow === 'export'}
+                                onClick={() => handleTabChange('export')}
+                            >
+                                Экспорт
+                            </TabItem>
+                        </Tabs>
+                    ) : (
+                        <Button size="xs" view="clear" contentPlacing="relaxed" onClick={onBack}>
+                            ← Назад
+                        </Button>
+                    )}
                 </div>
                 <div className="screen-content">
-                    {screen === 'home' && <HomeScreen flow={flow} onStart={() => setScreen('select')} />}
-                    {screen === 'select' && (
-                        <SelectScreen flow={flow} onBack={() => setScreen('home')} onSelect={handleSystemSelect} />
+                    {prevScreen && (
+                        <div className={`screen-anim screen-anim--exit-${direction}`} onAnimationEnd={onExited}>
+                            {renderScreen(prevScreen)}
+                        </div>
                     )}
-                    {screen === 'confirm' && selectedSystem && (
-                        <ConfirmScreen
-                            flow={flow}
-                            system={selectedSystem}
-                            onBack={() => setScreen('select')}
-                            onConfirm={handleConfirm}
-                        />
-                    )}
-                    {screen === 'result' && (
-                        <ResultScreen flow={flow} resultState={resultState} logs={logs} onClose={handleClose} />
-                    )}
+                    <div className={`screen-anim${prevScreen ? ` screen-anim--enter-${direction}` : ''}`}>
+                        {renderScreen(screen)}
+                    </div>
                 </div>
             </div>
         </PopupProvider>

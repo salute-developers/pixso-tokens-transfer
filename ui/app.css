@@ -19,20 +19,67 @@ body {
 }
 
 .tabs-header {
-    padding: 0 1rem;
+    padding: 0.125rem 1rem;
     flex-shrink: 0;
 }
 
-.tabs-header .tab-item-animated {
+.tabs-header .tab-item-animated:not(:first-child) {
     margin-left: 0.625rem;
 }
 
 .screen-content {
     flex: 1;
-    padding: 0 1rem 1.25rem 1rem;
-    display: flex;
     overflow: hidden;
+    position: relative;
+}
+
+/* Screen transitions */
+
+.screen-anim {
+    position: absolute;
+    inset: 0;
+    padding: 0 1rem 1.25rem;
+    display: flex;
     flex-direction: column;
+    overflow: hidden;
+}
+
+.screen-anim--exit-forward {
+    animation: screen-exit-left 200ms ease-in-out forwards;
+    pointer-events: none;
+}
+
+.screen-anim--exit-back {
+    animation: screen-exit-right 200ms ease-in-out forwards;
+    pointer-events: none;
+}
+
+.screen-anim--enter-forward {
+    animation: screen-enter-right 200ms ease-in-out forwards;
+}
+
+.screen-anim--enter-back {
+    animation: screen-enter-left 200ms ease-in-out forwards;
+}
+
+@keyframes screen-enter-right {
+    from { transform: translateX(1.5rem); opacity: 0; }
+    to   { transform: translateX(0);      opacity: 1; }
+}
+
+@keyframes screen-enter-left {
+    from { transform: translateX(-1.5rem); opacity: 0; }
+    to   { transform: translateX(0);       opacity: 1; }
+}
+
+@keyframes screen-exit-left {
+    from { transform: translateX(0);       opacity: 1; }
+    to   { transform: translateX(-1.5rem); opacity: 0; }
+}
+
+@keyframes screen-exit-right {
+    from { transform: translateX(0);      opacity: 1; }
+    to   { transform: translateX(1.5rem); opacity: 0; }
 }
 
 /* Утилиты */
