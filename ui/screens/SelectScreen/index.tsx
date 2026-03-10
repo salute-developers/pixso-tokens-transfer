@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import './index.css';
 import { Button, BodyS, Spinner } from '@salutejs/sdds-serv';
 import type { DesignSystem, FlowType } from 'types';
-import { getDesignSystems } from '../../helpers/designSystems';
+import { DESIGN_SYSTEMS, getDesignSystems } from '../../helpers/designSystems';
 import { LogViewer } from '../../components';
 
 interface SelectScreenProps {
@@ -13,7 +13,7 @@ interface SelectScreenProps {
 export const SelectScreen: React.FC<SelectScreenProps> = ({ flow, onSelect }) => {
     const title = flow === 'import' ? 'Выберите дизайн-систему для импорта' : 'Выберите дизайн-систему для экспорта';
 
-    const [designSystems, setDesignSystems] = useState<DesignSystem[]>([]);
+    const [designSystems, setDesignSystems] = useState<DesignSystem[]>(DESIGN_SYSTEMS);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -27,7 +27,7 @@ export const SelectScreen: React.FC<SelectScreenProps> = ({ flow, onSelect }) =>
     }, []);
 
     useEffect(() => {
-        fetchDesignSystems();
+        // fetchDesignSystems();
     }, [fetchDesignSystems]);
 
     if (loading) {

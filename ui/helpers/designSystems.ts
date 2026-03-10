@@ -16,3 +16,9 @@ export const getDesignSystems = async (): Promise<DesignSystem[]> => {
         projectName: item.projectName,
     }));
 };
+
+export const DESIGN_SYSTEMS: DesignSystem[] = [
+    { id: 'sdds-serv', name: 'SDDS Serv', projectName: 'SDDS Serv' },
+    { id: 'sdds-insol', name: 'SDDS Insol', projectName: 'SDDS Insol' },
+    { id: 'sdds-bizcom', name: 'SDDS bizCom', projectName: 'SDDS bizCom' },
+];
