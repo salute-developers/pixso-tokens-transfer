@@ -5,6 +5,7 @@ export type ResultState = 'loading' | 'success' | 'error';
 export type DesignSystem = {
     id: string;
     name: string;
+    projectName: string;
 };
 
 export type RemotePaint = {

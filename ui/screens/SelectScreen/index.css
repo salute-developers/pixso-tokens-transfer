@@ -4,6 +4,13 @@
     gap: 12px;
 }
 
+.select-screen--loading {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
 .select-screen__title {
     color: var(--text-secondary);
     text-align: center;

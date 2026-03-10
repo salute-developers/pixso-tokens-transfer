@@ -7,11 +7,10 @@ import { DesignSystemCard } from '../../components';
 interface ConfirmScreenProps {
     flow: FlowType;
     system: DesignSystem;
-    onBack: () => void;
     onConfirm: () => void;
 }
 
-export const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ flow, system, onBack, onConfirm }) => {
+export const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ flow, system, onConfirm }) => {
     const buttonLabel = flow === 'import' ? 'Начать импорт в Pixso' : 'Начать экспорт в DS Builder';
 
     return (

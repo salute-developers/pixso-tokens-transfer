@@ -19,8 +19,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ flow, onStart }) => {
         </>
     ) : (
         <>
-            Текущие стили в <span className="accent-info-in-text">DS Builder</span> будут заменены значениями из{' '}
-            <span className="accent-info-in-text">Pixso</span>. Все связанные токены и конфигурации обновятся
+            Опубликованные локальные стили из <span className="accent-info-in-text">Pixso</span> будут собраны в файл
+            для загрузки в <span className="accent-info-in-text">DS Builder</span>. Скачиваение файла начнется
             автоматически.
         </>
     );

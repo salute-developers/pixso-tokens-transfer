@@ -16,8 +16,8 @@ interface ResultScreenProps {
 const resultStateInfo = (flow: FlowType) => ({
     success: {
         title: `Стили успешно ${flow === 'import' ? 'импортированы' : 'экспортированы'}`,
-        subtitle: `Стили успешно загружены в ${
-            flow === 'import' ? 'Pixso' : 'DS Builder'
+        subtitle: `Стили успешно ${
+            flow === 'import' ? 'загружены в Pixso' : 'сформированы в файл для загрузки в DS Builder'
         }. Вы можете закрыть окно и проверить обновления.`,
         img: operationSuccess,
     },

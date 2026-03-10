@@ -1,5 +1,4 @@
 import { CONSTANTS } from './utils/constants';
-import { loadLocalStyles, importStyles } from './utils';
 
 pixso.showUI(__html__, {
     width: 400,
@@ -9,41 +8,35 @@ pixso.showUI(__html__, {
 
 pixso.ui.onmessage = async (msg) => {
     switch (msg.type) {
-        case CONSTANTS.msgType.loadLocalStyles:
-            await loadLocalStyles();
-            break;
-
-        case CONSTANTS.msgType.importStyles:
-            importStyles(msg.data);
-            break;
-
-        case CONSTANTS.msgType.getActiveTheme: {
-            const activeTheme = await pixso.clientStorage.getAsync(CONSTANTS.storageActiveTheme);
-            pixso.ui.postMessage({
-                type: CONSTANTS.msgType.activeThemeFetched,
-                data: { activeTheme: activeTheme || null },
-            });
-            break;
-        }
-
-        case CONSTANTS.msgType.changeActiveTheme: {
-            await pixso.clientStorage.setAsync(CONSTANTS.storageActiveTheme, msg.data.theme);
-            pixso.ui.postMessage({
-                type: CONSTANTS.msgType.activeThemeChanged,
-                data: { activeTheme: msg.data.theme },
-            });
-            break;
-        }
+        // case CONSTANTS.msgType.importStyles:
+        //     importStyles(msg.data);
+        //     break;
 
         case CONSTANTS.msgType.getLocalStylesForExport: {
-            const localStyles = pixso.getLocalPaintStyles();
-            const exportData = localStyles.map((style) => ({
-                id: style.id,
-                key: style.key,
-                type: style.type,
-                name: style.name,
-                paints: style.paints,
-            }));
+            const allStyles = pixso.getLocalPaintStyles();
+            const statuses = await Promise.all(allStyles.map((style) => style.getPublishStatusAsync()));
+
+            const localStyles = allStyles.filter((_, i) => statuses[i] === 'CURRENT');
+            const exportData = localStyles.map((style) => {
+                if (!style.paints || style.paints[0].type === 'IMAGE') return;
+
+                if (style.paints[0].type === 'SOLID') {
+                    return {
+                        name: style.name,
+                        type: style.paints[0].type,
+                        opacity: style.paints[0].opacity,
+                        color: style.paints[0]?.color,
+                    };
+                }
+
+                return {
+                    name: style.name,
+                    type: style.paints[0].type,
+                    opacity: style.paints[0].opacity,
+                    gradientTransform: style.paints[0]?.gradientTransform,
+                    gradientStops: style.paints[0]?.gradientStops,
+                };
+            });
             pixso.ui.postMessage({
                 type: CONSTANTS.msgType.localStylesForExport,
                 data: exportData,
