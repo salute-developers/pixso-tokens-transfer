@@ -8,16 +8,18 @@ export type DesignSystem = {
     projectName: string;
 };
 
+export type PixsoRGB = {
+    r: number;
+    g: number;
+    b: number;
+};
+
 export type RemotePaint = {
     type: string;
     blendMode: string;
     opacity: number;
     visible: boolean;
-    color: {
-        r: number;
-        g: number;
-        b: number;
-    };
+    color: PixsoRGB;
 };
 
 export type RemoteStyleData = {
